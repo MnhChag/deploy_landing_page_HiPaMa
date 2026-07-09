@@ -1,0 +1,1591 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      HiPaMa - Ứng dụng chăm sóc Bé theo chuẩn EASY & Mua sắm thông minh
+    </title>
+    <meta
+      name="description"
+      content="HiPaMa - Trợ lý AI đồng hành cùng Bố Mẹ chăm bé theo phương pháp E.A.S.Y: tính Wake Window tự động, đồng bộ real-time, quản lý kho sữa trữ đông và mua sắm gia đình thông minh. Trải nghiệm MVP ngay!"
+    />
+    <meta
+      name="keywords"
+      content="HiPaMa, EASY, chăm sóc bé, wake window, babytech, femtech, kho sữa, mua sắm gia đình"
+    />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="HiPaMa" />
+    <meta property="og:locale" content="vi_VN" />
+    <meta
+      property="og:title"
+      content="HiPaMa - Ứng dụng chăm sóc Bé theo chuẩn EASY & Mua sắm thông minh"
+    />
+    <meta
+      property="og:description"
+      content="Trợ lý AI giúp Bố Mẹ chăm bé theo chu kỳ E.A.S.Y: tự động tính Wake Window, đồng bộ real-time và mua sắm gia đình tiện lợi."
+    />
+
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='84'%3E%E2%98%81%EF%B8%8F%3C/text%3E%3C/svg%3E"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;1,600&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --cream: #fffcf8;
+        --milk: #fff6f0;
+        --peach: #f4c2b4;
+        --peach-deep: #efa491;
+        --peach-tint: #fdf1ec;
+        --mint: #a8dadc;
+        --mint-deep: #7fc3c6;
+        --mint-tint: #f1fafa;
+        --ink: #4a3c46;
+        --ink-soft: #8a7a85;
+        --apricot: #f2935c;
+        --apricot-deep: #e27c46;
+        --glass: rgba(255, 255, 255, 0.55);
+        --glass-border: rgba(255, 255, 255, 0.7);
+        --plum-dark: #3a2e3c;
+        --radius: 28px;
+        --shadow-soft: 0 20px 50px -20px rgba(74, 60, 70, 0.25);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        font-family: "Nunito", sans-serif;
+        color: var(--ink);
+        background: var(--cream);
+        overflow-x: hidden;
+      }
+      h1,
+      h2,
+      h3,
+      .logo,
+      .nav a,
+      .btn,
+      .card-letter,
+      .stat-num {
+        font-family: "Quicksand", sans-serif;
+      }
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+        font-weight: 700;
+        color: var(--ink);
+      }
+      p {
+        line-height: 1.7;
+        color: var(--ink-soft);
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      img,
+      svg {
+        display: block;
+        max-width: 100%;
+      }
+      section {
+        scroll-margin-top: 84px;
+      }
+      .container {
+        max-width: 1160px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: "Quicksand", sans-serif;
+        font-weight: 700;
+        font-size: 14px;
+        letter-spacing: 0.04em;
+        color: var(--apricot-deep);
+        background: rgba(242, 147, 92, 0.12);
+        padding: 6px 16px;
+        border-radius: 999px;
+        margin-bottom: 16px;
+      }
+      .section-head {
+        max-width: 640px;
+        margin: 0 auto 56px;
+        text-align: center;
+      }
+      .section-head h2 {
+        font-size: clamp(28px, 4vw, 40px);
+      }
+      .section-head p {
+        margin-top: 14px;
+        font-size: 17px;
+      }
+
+      /* ---------- reveal on scroll ---------- */
+      .reveal {
+        opacity: 0;
+        transform: translateY(28px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+      .reveal.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .reveal[style*="--i"] {
+        transition-delay: calc(var(--i, 0) * 90ms);
+      }
+
+      /* ---------- header ---------- */
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        padding: 16px 0;
+        transition:
+          background 0.35s ease,
+          box-shadow 0.35s ease,
+          padding 0.35s ease;
+      }
+      header.scrolled {
+        background: rgba(255, 252, 248, 0.75);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        box-shadow: 0 8px 30px -18px rgba(74, 60, 70, 0.35);
+        padding: 10px 0;
+      }
+      .nav-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .logo {
+        font-size: 22px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .nav {
+        display: flex;
+        gap: 8px;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .nav a {
+        font-weight: 600;
+        font-size: 15px;
+        color: var(--ink);
+        padding: 10px 18px;
+        border-radius: 999px;
+        transition:
+          background 0.25s ease,
+          color 0.25s ease;
+      }
+      .nav a:hover,
+      .nav a:focus-visible {
+        background: var(--glass);
+        color: var(--apricot-deep);
+      }
+      .burger {
+        display: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 8px;
+      }
+      .burger span {
+        display: block;
+        width: 24px;
+        height: 3px;
+        margin: 5px 0;
+        background: var(--ink);
+        border-radius: 3px;
+        transition:
+          transform 0.3s ease,
+          opacity 0.3s ease;
+      }
+      .burger[aria-expanded="true"] span:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+      }
+      .burger[aria-expanded="true"] span:nth-child(2) {
+        opacity: 0;
+      }
+      .burger[aria-expanded="true"] span:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+      }
+
+      /* ---------- buttons ---------- */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-weight: 700;
+        font-size: 16px;
+        padding: 16px 32px;
+        border-radius: 999px;
+        border: none;
+        cursor: pointer;
+        transition:
+          transform 0.25s ease,
+          box-shadow 0.25s ease;
+      }
+      .btn-primary {
+        background: linear-gradient(
+          135deg,
+          var(--apricot),
+          var(--apricot-deep)
+        );
+        color: #fff;
+        box-shadow: 0 14px 30px -10px rgba(226, 124, 70, 0.55);
+      }
+      .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 18px 34px -8px rgba(226, 124, 70, 0.6);
+      }
+      .btn-primary:focus-visible,
+      a:focus-visible,
+      button:focus-visible,
+      input:focus-visible,
+      textarea:focus-visible {
+        outline: 3px solid var(--mint-deep);
+        outline-offset: 2px;
+      }
+
+      /* ---------- hero ---------- */
+      .hero {
+        position: relative;
+        padding: 150px 0 0;
+        background: linear-gradient(
+          135deg,
+          var(--peach) 0%,
+          #f6d7cb 32%,
+          #d3ece9 68%,
+          var(--mint) 100%
+        );
+        overflow: hidden;
+      }
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 40px;
+        align-items: center;
+        padding-bottom: 110px;
+      }
+      .hero h1 {
+        font-size: clamp(32px, 4.6vw, 52px);
+        line-height: 1.18;
+        color: #3d3140;
+      }
+      .hero .lede {
+        font-size: 18px;
+        margin: 22px 0 34px;
+        max-width: 520px;
+        color: #5a4c55;
+      }
+      .hero-actions {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      .hero-hint {
+        font-size: 14px;
+        color: #5a4c55;
+        font-weight: 600;
+      }
+
+      .cloud-scene {
+        position: relative;
+        height: 380px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .cloud {
+        position: relative;
+        width: 280px;
+        height: 150px;
+        animation: float 6s ease-in-out infinite;
+      }
+      .cloud::before,
+      .cloud::after {
+        content: "";
+        position: absolute;
+        background: #fff;
+        border-radius: 50%;
+      }
+      .cloud-body {
+        position: absolute;
+        inset: 0;
+        background: #fff;
+        border-radius: 100px;
+        top: 50px;
+        height: 90px;
+        box-shadow: var(--shadow-soft);
+      }
+      .cloud::before {
+        width: 120px;
+        height: 120px;
+        top: 0;
+        left: 30px;
+      }
+      .cloud::after {
+        width: 100px;
+        height: 100px;
+        top: 15px;
+        left: 150px;
+      }
+      .cloud-face {
+        position: absolute;
+        left: 96px;
+        top: 88px;
+        font-size: 26px;
+        z-index: 2;
+      }
+      .zzz {
+        position: absolute;
+        font-family: "Quicksand", sans-serif;
+        font-weight: 700;
+        color: #fff;
+        text-shadow: 0 4px 10px rgba(74, 60, 70, 0.25);
+      }
+      .zzz.z1 {
+        top: 18%;
+        right: 10%;
+        font-size: 26px;
+        animation: drift 4s ease-in-out infinite;
+      }
+      .zzz.z2 {
+        top: 2%;
+        right: 22%;
+        font-size: 19px;
+        animation: drift 4s ease-in-out 0.6s infinite;
+      }
+      .zzz.z3 {
+        top: -10%;
+        right: 34%;
+        font-size: 14px;
+        animation: drift 4s ease-in-out 1.2s infinite;
+      }
+      .sparkle {
+        position: absolute;
+        color: var(--apricot);
+        animation: twinkle 2.6s ease-in-out infinite;
+      }
+      .sparkle.s1 {
+        bottom: 20%;
+        left: 8%;
+        font-size: 20px;
+      }
+      .sparkle.s2 {
+        top: 12%;
+        left: 0;
+        font-size: 14px;
+        animation-delay: 0.8s;
+      }
+      .sparkle.s3 {
+        bottom: 0;
+        right: 2%;
+        font-size: 16px;
+        animation-delay: 1.4s;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-18px);
+        }
+      }
+      @keyframes drift {
+        0%,
+        100% {
+          transform: translateY(0);
+          opacity: 0.85;
+        }
+        50% {
+          transform: translateY(-10px);
+          opacity: 1;
+        }
+      }
+      @keyframes twinkle {
+        0%,
+        100% {
+          opacity: 0.35;
+          transform: scale(0.85);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1.1);
+        }
+      }
+
+      .hero-wave {
+        display: block;
+        width: 100%;
+        height: auto;
+        margin-bottom: -2px;
+      }
+
+      /* ---------- about ---------- */
+      .about {
+        background: var(--milk);
+        padding: 100px 0 90px;
+      }
+      .about-content {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 56px;
+        align-items: center;
+      }
+      .about h2 {
+        font-size: clamp(28px, 4vw, 38px);
+        margin-bottom: 20px;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+        margin-top: 36px;
+      }
+      .stat-card {
+        background: var(--glass);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius);
+        padding: 24px 16px;
+        text-align: center;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        box-shadow: var(--shadow-soft);
+      }
+      .stat-num {
+        font-size: clamp(26px, 3vw, 34px);
+        font-weight: 700;
+        color: var(--apricot-deep);
+      }
+      .stat-label {
+        font-size: 13px;
+        color: var(--ink-soft);
+        font-weight: 600;
+        margin-top: 6px;
+      }
+      .about-visual {
+        position: relative;
+        border-radius: var(--radius);
+        background: linear-gradient(
+          160deg,
+          var(--peach-tint),
+          var(--mint-tint)
+        );
+        border: 1px solid var(--glass-border);
+        padding: 44px;
+        text-align: center;
+        box-shadow: var(--shadow-soft);
+      }
+      .about-visual .big-cloud {
+        font-size: 96px;
+      }
+      .about-visual p {
+        margin-top: 12px;
+        font-weight: 700;
+        color: var(--ink);
+        font-family: "Quicksand", sans-serif;
+      }
+
+      /* ---------- features ---------- */
+      .features {
+        background: var(--mint-tint);
+        padding: 100px 0;
+      }
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 26px;
+      }
+      .card {
+        background: var(--glass);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius);
+        padding: 34px;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        box-shadow: var(--shadow-soft);
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+      .card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 26px 54px -18px rgba(74, 60, 70, 0.32);
+      }
+      .card-top {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+      .card-letter {
+        width: 56px;
+        height: 56px;
+        flex: none;
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 26px;
+        font-weight: 700;
+        color: #fff;
+      }
+      .card:nth-child(1) .card-letter {
+        background: linear-gradient(135deg, var(--peach), var(--apricot-deep));
+      }
+      .card:nth-child(2) .card-letter {
+        background: linear-gradient(135deg, #b7e4c7, #6fbf8f);
+      }
+      .card:nth-child(3) .card-letter {
+        background: linear-gradient(135deg, var(--mint), var(--mint-deep));
+      }
+      .card:nth-child(4) .card-letter {
+        background: linear-gradient(135deg, #e3b7e0, #c08bd0);
+      }
+      .card-icon {
+        font-size: 22px;
+      }
+      .card h3 {
+        font-size: 19px;
+      }
+      .card p {
+        font-size: 15px;
+        margin-top: 6px;
+      }
+
+      /* ---------- shop strip ---------- */
+      .shop {
+        background: var(--cream);
+        padding: 70px 0;
+      }
+      .shop-panel {
+        background: var(--glass);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius);
+        padding: 44px;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        box-shadow: var(--shadow-soft);
+      }
+      .shop-head {
+        text-align: center;
+        margin-bottom: 32px;
+      }
+      .shop-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+      }
+      .shop-item {
+        text-align: center;
+        padding: 0 8px;
+      }
+      .shop-item .ic {
+        font-size: 30px;
+        margin-bottom: 10px;
+      }
+      .shop-item h4 {
+        font-family: "Quicksand", sans-serif;
+        font-weight: 700;
+        font-size: 16px;
+        margin-bottom: 6px;
+      }
+      .shop-item p {
+        font-size: 14px;
+      }
+
+      /* ---------- testimonials ---------- */
+      .testimonials {
+        background: var(--peach-tint);
+        padding: 100px 0;
+      }
+      .t-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 26px;
+      }
+      .t-card {
+        background: var(--cream);
+        border-radius: var(--radius);
+        padding: 32px;
+        box-shadow: var(--shadow-soft);
+        border: 1px solid rgba(255, 255, 255, 0.9);
+      }
+      .t-quote {
+        font-size: 15px;
+        font-style: italic;
+        color: var(--ink);
+      }
+      .t-person {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 20px;
+      }
+      .avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        color: #fff;
+        font-family: "Quicksand", sans-serif;
+        font-size: 17px;
+        border: 3px solid #fff;
+        box-shadow: 0 0 0 2px var(--peach);
+      }
+      .t-card:nth-child(1) .avatar {
+        background: linear-gradient(
+          135deg,
+          var(--apricot),
+          var(--apricot-deep)
+        );
+      }
+      .t-card:nth-child(2) .avatar {
+        background: linear-gradient(135deg, var(--mint), var(--mint-deep));
+        box-shadow: 0 0 0 2px var(--mint);
+      }
+      .t-card:nth-child(3) .avatar {
+        background: linear-gradient(135deg, #d9a8e0, #b478c4);
+        box-shadow: 0 0 0 2px #d9a8e0;
+      }
+      .t-name {
+        font-weight: 700;
+        font-size: 15px;
+      }
+      .t-role {
+        font-size: 13px;
+        color: var(--ink-soft);
+      }
+
+      /* ---------- contact ---------- */
+      .contact {
+        background: var(--milk);
+        padding: 100px 0;
+      }
+      .contact-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 40px;
+        align-items: stretch;
+      }
+      .form-card,
+      .info-card {
+        border-radius: var(--radius);
+        padding: 40px;
+        box-shadow: var(--shadow-soft);
+      }
+      .form-card {
+        background: var(--glass);
+        border: 1px solid var(--glass-border);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+      }
+      .field {
+        margin-bottom: 18px;
+      }
+      .field label {
+        display: block;
+        font-weight: 700;
+        font-size: 14px;
+        margin-bottom: 7px;
+        font-family: "Quicksand", sans-serif;
+      }
+      .field input,
+      .field textarea {
+        width: 100%;
+        padding: 14px 16px;
+        border-radius: 16px;
+        border: 1.5px solid rgba(74, 60, 70, 0.15);
+        background: rgba(255, 255, 255, 0.8);
+        font-family: "Nunito", sans-serif;
+        font-size: 15px;
+        color: var(--ink);
+        transition:
+          border-color 0.25s ease,
+          box-shadow 0.25s ease;
+      }
+      .field input:focus,
+      .field textarea:focus {
+        border-color: var(--mint-deep);
+        box-shadow: 0 0 0 4px rgba(168, 218, 220, 0.35);
+        outline: none;
+      }
+      .field .err {
+        display: none;
+        color: #c4574a;
+        font-size: 12.5px;
+        margin-top: 5px;
+        font-weight: 600;
+      }
+      .field.invalid input,
+      .field.invalid textarea {
+        border-color: #c4574a;
+      }
+      .field.invalid .err {
+        display: block;
+      }
+      .form-msg {
+        display: none;
+        margin-top: 18px;
+        padding: 16px 18px;
+        border-radius: 16px;
+        background: rgba(127, 195, 198, 0.18);
+        border: 1px solid var(--mint-deep);
+        color: #2f5e60;
+        font-weight: 700;
+        font-size: 14.5px;
+      }
+      .form-msg.show {
+        display: block;
+        animation: pop 0.4s ease;
+      }
+      .form-msg.error {
+        background: rgba(196, 87, 74, 0.12);
+        border-color: #c4574a;
+        color: #c4574a;
+      }
+      @keyframes pop {
+        from {
+          opacity: 0;
+          transform: scale(0.96);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      .info-card {
+        background: linear-gradient(160deg, var(--peach), var(--mint));
+        color: #3d3140;
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+        justify-content: center;
+      }
+      .info-item {
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+      }
+      .info-item .ic {
+        font-size: 22px;
+      }
+      .info-item h4 {
+        font-family: "Quicksand", sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+        margin-bottom: 4px;
+      }
+      .info-item p {
+        color: #3d3140;
+        font-size: 14.5px;
+        margin: 0;
+      }
+
+      /* ---------- footer ---------- */
+      footer {
+        background: var(--plum-dark);
+        color: #f1e9ec;
+        padding: 56px 0 26px;
+      }
+      .footer-grid {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 28px;
+        padding-bottom: 30px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      }
+      .footer-logo {
+        font-size: 20px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-family: "Quicksand", sans-serif;
+      }
+      .footer-tag {
+        font-size: 14px;
+        color: #c9bec5;
+        margin-top: 8px;
+        max-width: 280px;
+      }
+      .socials {
+        display: flex;
+        gap: 12px;
+      }
+      .socials a {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.08);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition:
+          background 0.25s ease,
+          transform 0.25s ease;
+      }
+      .socials a:hover {
+        background: var(--apricot);
+        transform: translateY(-3px);
+      }
+      .emergency {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: rgba(242, 147, 92, 0.15);
+        border: 1px solid rgba(242, 147, 92, 0.4);
+        padding: 10px 18px;
+        border-radius: 999px;
+        font-weight: 700;
+        color: #f7c9a8;
+        font-size: 14px;
+      }
+      .footer-bottom {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+        padding-top: 22px;
+        font-size: 13px;
+        color: #b7adb4;
+      }
+
+      /* ---------- responsive ---------- */
+      @media (max-width: 900px) {
+        .hero-grid {
+          grid-template-columns: 1fr;
+          padding-bottom: 70px;
+        }
+        .cloud-scene {
+          height: 260px;
+          order: -1;
+        }
+        .about-content {
+          grid-template-columns: 1fr;
+        }
+        .cards {
+          grid-template-columns: 1fr;
+        }
+        .shop-grid {
+          grid-template-columns: 1fr;
+          gap: 28px;
+        }
+        .t-grid {
+          grid-template-columns: 1fr;
+        }
+        .contact-grid {
+          grid-template-columns: 1fr;
+        }
+        .stats {
+          grid-template-columns: 1fr;
+        }
+      }
+      @media (max-width: 760px) {
+        .nav {
+          position: fixed;
+          top: 0;
+          right: 0;
+          height: 100vh;
+          width: min(78vw, 320px);
+          background: var(--cream);
+          flex-direction: column;
+          padding: 100px 28px 28px;
+          gap: 6px;
+          box-shadow: -16px 0 40px rgba(74, 60, 70, 0.18);
+          transform: translateX(100%);
+          transition: transform 0.35s ease;
+        }
+        .nav.open {
+          transform: translateX(0);
+        }
+        .nav a {
+          display: block;
+          padding: 14px 18px;
+          font-size: 17px;
+        }
+        .burger {
+          display: block;
+        }
+        .hero {
+          padding-top: 120px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation-duration: 0.001ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.001ms !important;
+        }
+        html {
+          scroll-behavior: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header id="siteHeader">
+      <div class="container nav-wrap">
+        <a class="logo" href="#home">☁️ HiPaMa</a>
+        <nav class="nav" id="navMenu">
+          <a href="#about">Giới thiệu</a>
+          <a href="#features">Tính năng E.A.S.Y</a>
+          <a href="#shop">Mua sắm</a>
+          <a href="#contact">Liên hệ</a>
+        </nav>
+        <button
+          class="burger"
+          id="burgerBtn"
+          aria-label="Mở menu"
+          aria-expanded="false"
+          aria-controls="navMenu"
+        >
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div class="hero-copy reveal">
+          <span class="eyebrow">☁️ Tổ ấm nhỏ hạnh phúc</span>
+          <h1>Chăm con theo chuẩn E.A.S.Y chưa bao giờ hạnh phúc đến thế!</h1>
+          <p class="lede">
+            Trợ lý AI thông minh giúp tự động tính toán Wake Window, đồng bộ
+            real-time giữa Bố & Mẹ, tích hợp voice notification siêu cute và
+            giải tỏa stress sau sinh cho Mẹ.
+          </p>
+          <div class="hero-actions">
+            <button class="btn btn-primary" id="ctaHero" type="button">
+              Trải nghiệm phiên bản MVP ngay
+            </button>
+            <span class="hero-hint">Miễn phí trong giai đoạn dùng thử ✨</span>
+          </div>
+        </div>
+        <div class="cloud-scene reveal">
+          <div class="cloud" aria-hidden="true">
+            <div class="cloud-body"></div>
+            <span class="cloud-face">😴</span>
+          </div>
+          <span class="zzz z1" aria-hidden="true">Z</span>
+          <span class="zzz z2" aria-hidden="true">z</span>
+          <span class="zzz z3" aria-hidden="true">z</span>
+          <span class="sparkle s1" aria-hidden="true">✦</span>
+          <span class="sparkle s2" aria-hidden="true">✦</span>
+          <span class="sparkle s3" aria-hidden="true">✦</span>
+        </div>
+      </div>
+      <svg
+        class="hero-wave"
+        viewBox="0 0 1440 110"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <path
+          fill="#FFF6F0"
+          d="M0,64 C240,120 480,0 720,32 C960,64 1200,110 1440,48 L1440,110 L0,110 Z"
+        ></path>
+      </svg>
+    </section>
+
+    <section class="about" id="about">
+      <div class="container about-content">
+        <div class="reveal">
+          <span class="eyebrow">Về HiPaMa</span>
+          <h2>Hệ sinh thái công nghệ cho gia đình hiện đại</h2>
+          <p>
+            HiPaMa là hệ sinh thái công nghệ toàn diện dành cho các gia đình
+            hiện đại, áp dụng phương pháp khoa học E.A.S.Y (Eat - Activity -
+            Sleep - Your time) vào việc nuôi dạy trẻ nhỏ. Chúng tôi hiểu rằng
+            hành trình làm cha mẹ rất thiêng liêng nhưng cũng đầy thử thách, vì
+            vậy HiPaMa ra đời để kết nối mọi thành viên trong gia đình trong
+            việc chăm sóc bé yêu.
+          </p>
+          <p>
+            Ứng dụng sở hữu tính năng đồng bộ thời gian thực không độ trễ giữa
+            Bố, Mẹ và Người trông trẻ, kết hợp cùng Trợ lý AI cảnh báo sai trình
+            tự sinh hoạt và hệ thống quản lý kho sữa trữ đông thông minh theo
+            nguyên tắc FIFO.
+          </p>
+          <div class="stats" id="statsRow">
+            <div class="stat-card">
+              <div class="stat-num" data-count-to="99" data-suffix="%">0%</div>
+              <div class="stat-label">Bố Mẹ hài lòng</div>
+            </div>
+            <div class="stat-card">
+              <div
+                class="stat-num"
+                data-count-to="5000"
+                data-suffix="+"
+                data-format="dot"
+              >
+                0
+              </div>
+              <div class="stat-label">Cữ bú được ghi nhận</div>
+            </div>
+            <div class="stat-card">
+              <div
+                class="stat-num"
+                data-count-from="3"
+                data-count-to="0"
+                data-suffix="s"
+              >
+                3s
+              </div>
+              <div class="stat-label">Độ trễ đồng bộ Real-time</div>
+            </div>
+          </div>
+        </div>
+        <div class="about-visual reveal">
+          <div class="big-cloud">☁️💤</div>
+          <p>An yên như một giấc ngủ trưa của bé</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="features" id="features">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">Tính năng E.A.S.Y</span>
+          <h2>Bốn khối nhịp sinh hoạt, một vòng tuần hoàn an yên</h2>
+          <p>
+            HiPaMa số hoá trọn vẹn chu kỳ E.A.S.Y để Bố Mẹ luôn nắm được bé đang
+            ở đâu trong ngày.
+          </p>
+        </div>
+        <div class="cards reveal-stagger">
+          <div class="card reveal" style="--i: 0">
+            <div class="card-top">
+              <div class="card-letter">E</div>
+              <h3><span class="card-icon">🍼</span> Eat - Ăn uống khoa học</h3>
+            </div>
+            <p>
+              Bấm giờ bú mẹ trực tiếp, theo dõi lượng sữa bình, tự động trừ túi
+              sữa cũ nhất trong kho lưu trữ (Stash FIFO) và AI gợi ý thực đơn ăn
+              dặm.
+            </p>
+          </div>
+          <div class="card reveal" style="--i: 1">
+            <div class="card-top">
+              <div class="card-letter">A</div>
+              <h3>
+                <span class="card-icon">🟢</span> Activity - Vui chơi & Bài tiết
+              </h3>
+            </div>
+            <p>
+              Theo dõi và phân loại trạng thái bỉm tã (Wet/Dirty), đo lường thời
+              gian nằm sấp (Tummy time) giúp bé phát triển thể chất tối ưu.
+            </p>
+          </div>
+          <div class="card reveal" style="--i: 2">
+            <div class="card-top">
+              <div class="card-letter">S</div>
+              <h3>
+                <span class="card-icon">💤</span> Sleep - Giấc ngủ bình yên
+              </h3>
+            </div>
+            <p>
+              Thiết lập giờ ngủ cố định, tự động tính toán Cửa sổ thức (Wake
+              Window) theo tháng tuổi và gửi thông báo nhắc nhở trước khi bé quá
+              giấc.
+            </p>
+          </div>
+          <div class="card reveal" style="--i: 3">
+            <div class="card-top">
+              <div class="card-letter">Y</div>
+              <h3><span class="card-icon">👩‍🍼</span> You - Đặc quyền của Mẹ</h3>
+            </div>
+            <p>
+              Góc chăm sóc tinh thần với người bạn AI Companion lắng nghe xả
+              stress, nhật ký theo dõi sản dịch, nhắc uống nước và bài tập phục
+              hồi cơ sàn chậu.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="shop" id="shop">
+      <div class="container">
+        <div class="shop-panel reveal">
+          <div class="shop-head">
+            <span class="eyebrow">🛒 Mua sắm gia đình</span>
+            <h2>Một giỏ hàng, cả nhà cùng quản lý</h2>
+          </div>
+          <div class="shop-grid">
+            <div class="shop-item">
+              <div class="ic">🛍️</div>
+              <h4>Giỏ hàng chung Bố & Mẹ</h4>
+              <p>
+                Mẹ thêm bỉm, sữa vào giỏ từ điện thoại của mình, Bố thấy ngay và
+                có thể thanh toán tức thì.
+              </p>
+            </div>
+            <div class="shop-item">
+              <div class="ic">⏰</div>
+              <h4>Nhắc bổ sung đúng lúc</h4>
+              <p>
+                AI theo dõi lượng bỉm, sữa còn lại và tự động gợi ý đặt mua
+                trước khi dùng hết.
+              </p>
+            </div>
+            <div class="shop-item">
+              <div class="ic">🔄</div>
+              <h4>Đồng bộ không độ trễ</h4>
+              <p>
+                Mọi thay đổi trong giỏ hàng được cập nhật real-time trên mọi
+                thiết bị trong nhà.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="testimonials" id="testimonials">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">Phản hồi khách hàng</span>
+          <h2>Những tổ ấm đã tin dùng HiPaMa</h2>
+        </div>
+        <div class="t-grid reveal-stagger">
+          <div class="t-card reveal" style="--i: 0">
+            <p class="t-quote">
+              "Từ ngày dùng HiPaMa, mình không còn lo con bị quá giấc nữa. AI
+              tính Wake Window siêu chuẩn, thông báo bằng giọng nói 'Papa ơi
+              bbiboo đói rồi' nghe cưng xỉu!"
+            </p>
+            <div class="t-person">
+              <div class="avatar">L</div>
+              <div>
+                <div class="t-name">Mẹ Lisa</div>
+                <div class="t-role">Mẹ bé 4 tháng tuổi</div>
+              </div>
+            </div>
+          </div>
+          <div class="t-card reveal" style="--i: 1">
+            <p class="t-quote">
+              "Giỏ hàng gia đình rất tiện, vợ chọn tã bỉm bên máy vợ là máy mình
+              hiện thông báo thanh toán ngay. Dữ liệu đồng bộ real-time nên mình
+              đi làm vẫn biết ở nhà con ăn ngủ thế nào."
+            </p>
+            <div class="t-person">
+              <div class="avatar">T</div>
+              <div>
+                <div class="t-name">Bố Trox</div>
+                <div class="t-role">Bố bé 8 tháng tuổi</div>
+              </div>
+            </div>
+          </div>
+          <div class="t-card reveal" style="--i: 2">
+            <p class="t-quote">
+              "Chế độ Đa hồ sơ (Twins Management) của app cực tốt, chuyển đổi
+              qua lại giữa hai bé rất nhanh, không sợ bị lẫn lộn lịch bú và thay
+              tã."
+            </p>
+            <div class="t-person">
+              <div class="avatar">H</div>
+              <div>
+                <div class="t-name">Mẹ Thu Hồng</div>
+                <div class="t-role">Gia đình sinh đôi</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="contact">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">Liên hệ</span>
+          <h2>Kể cho HiPaMa nghe về tổ ấm của bạn</h2>
+          <p>
+            Để lại thông tin, đội ngũ HiPaMa sẽ liên hệ hướng dẫn bạn trải
+            nghiệm bản MVP sớm nhất.
+          </p>
+        </div>
+        <div class="contact-grid">
+          <form
+            class="form-card reveal"
+            id="contactForm"
+            action="https://formspree.io/f/mqevvbdd"
+            method="POST"
+            novalidate
+          >
+            <div class="field" id="field-name">
+              <label for="fullname">Họ tên</label>
+              <input
+                type="text"
+                id="fullname"
+                name="fullname"
+                placeholder="Nguyễn Thị Mẹ Bỉm"
+              />
+              <span class="err">Vui lòng nhập họ tên của bạn.</span>
+            </div>
+            <div class="field" id="field-phone">
+              <label for="phone">Số điện thoại</label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                placeholder="09xx xxx xxx"
+              />
+              <span class="err">Số điện thoại chưa hợp lệ (9-11 chữ số).</span>
+            </div>
+            <div class="field" id="field-email">
+              <label for="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="ban@email.com"
+              />
+              <span class="err">Email chưa đúng định dạng.</span>
+            </div>
+            <div class="field" id="field-message">
+              <label for="message">Nội dung cần tư vấn</label>
+              <textarea
+                id="message"
+                name="message"
+                rows="4"
+                placeholder="Mình muốn được tư vấn về gói dùng thử MVP..."
+              ></textarea>
+              <span class="err"
+                >Bạn hãy chia sẻ đôi chút để HiPaMa hỗ trợ đúng nhu cầu
+                nhé.</span
+              >
+            </div>
+            <button class="btn btn-primary" type="submit" style="width: 100%">
+              Gửi thông tin
+            </button>
+            <div class="form-msg" id="formMsg">
+              Chào mừng bạn đến với tổ ấm nhỏ HiPaMa! Đã gửi thành công 💛
+            </div>
+          </form>
+          <div class="info-card reveal">
+            <div class="info-item">
+              <span class="ic">📍</span>
+              <div>
+                <h4>Địa chỉ</h4>
+                <p>Tòa nhà HiPaMa Nest, Khu Công nghệ cao Hòa Lạc, Hà Nội</p>
+              </div>
+            </div>
+            <div class="info-item">
+              <span class="ic">📞</span>
+              <div>
+                <h4>Hotline</h4>
+                <p>1900-HIPAMA (1900-4472)</p>
+              </div>
+            </div>
+            <div class="info-item">
+              <span class="ic">✉️</span>
+              <div>
+                <h4>Email</h4>
+                <p>hello@hipama.vn</p>
+              </div>
+            </div>
+            <div class="info-item">
+              <span class="ic">🕐</span>
+              <div>
+                <h4>Giờ làm việc</h4>
+                <p>T2-CN: 07:00 - 22:00 (Hỗ trợ mẹ bỉm sữa mọi lúc)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <div class="footer-logo">☁️ HiPaMa</div>
+            <p class="footer-tag">
+              Tổ ấm nhỏ hạnh phúc - Đồng hành cùng chu kỳ E.A.S.Y của bé.
+            </p>
+          </div>
+          <div class="socials">
+            <a href="#" aria-label="Facebook">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M15 8.5h2.5V5.2c-.43-.06-1.9-.2-3.6-.2-3.57 0-6 2.24-6 6.36V15H4.5v3.8h3.4V29h3.9V18.8h3.35l.53-3.8H11.8v-3.1c0-1.1.3-1.85 1.85-1.85H15V8.5Z"
+                  fill="#F1E9EC"
+                />
+              </svg>
+            </a>
+            <a href="#" aria-label="Instagram">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <rect
+                  x="3"
+                  y="3"
+                  width="18"
+                  height="18"
+                  rx="5"
+                  stroke="#F1E9EC"
+                  stroke-width="1.7"
+                />
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="4.2"
+                  stroke="#F1E9EC"
+                  stroke-width="1.7"
+                />
+                <circle cx="17.4" cy="6.6" r="1.1" fill="#F1E9EC" />
+              </svg>
+            </a>
+            <a href="#" aria-label="YouTube">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <rect
+                  x="2.5"
+                  y="6"
+                  width="19"
+                  height="12"
+                  rx="4"
+                  stroke="#F1E9EC"
+                  stroke-width="1.7"
+                />
+                <path d="M10.5 9.5v5l4.5-2.5-4.5-2.5Z" fill="#F1E9EC" />
+              </svg>
+            </a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>Công ty Cổ phần Công nghệ TechNest HiPaMa © 2026</span>
+          <span class="emergency">🚨 Khẩn cấp (24/7): 0987-XXX-XXX</span>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      (function () {
+        "use strict";
+
+        // Header scroll state
+        var header = document.getElementById("siteHeader");
+        var onScroll = function () {
+          if (window.scrollY > 24) {
+            header.classList.add("scrolled");
+          } else {
+            header.classList.remove("scrolled");
+          }
+        };
+        document.addEventListener("scroll", onScroll, { passive: true });
+        onScroll();
+
+        // Mobile nav
+        var burger = document.getElementById("burgerBtn");
+        var nav = document.getElementById("navMenu");
+        burger.addEventListener("click", function () {
+          var open = nav.classList.toggle("open");
+          burger.setAttribute("aria-expanded", open ? "true" : "false");
+        });
+        nav.querySelectorAll("a").forEach(function (link) {
+          link.addEventListener("click", function () {
+            nav.classList.remove("open");
+            burger.setAttribute("aria-expanded", "false");
+          });
+        });
+
+        // Hero CTA scrolls to contact form
+        document
+          .getElementById("ctaHero")
+          .addEventListener("click", function () {
+            document
+              .getElementById("contact")
+              .scrollIntoView({ behavior: "smooth" });
+            setTimeout(function () {
+              var el = document.getElementById("fullname");
+              if (el) el.focus({ preventScroll: true });
+            }, 500);
+          });
+
+        // Reveal on scroll
+        var reveals = document.querySelectorAll(".reveal");
+        if ("IntersectionObserver" in window) {
+          var io = new IntersectionObserver(
+            function (entries) {
+              entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                  entry.target.classList.add("is-visible");
+                  io.unobserve(entry.target);
+                }
+              });
+            },
+            { threshold: 0.15 },
+          );
+          reveals.forEach(function (el) {
+            io.observe(el);
+          });
+        } else {
+          reveals.forEach(function (el) {
+            el.classList.add("is-visible");
+          });
+        }
+
+        // Counter animation
+        function formatNum(n, format) {
+          if (format === "dot") {
+            return Math.round(n)
+              .toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+          }
+          return Math.round(n).toString();
+        }
+        function animateCounter(el) {
+          var to = parseFloat(el.getAttribute("data-count-to"));
+          var from = parseFloat(el.getAttribute("data-count-from") || "0");
+          var suffix = el.getAttribute("data-suffix") || "";
+          var format = el.getAttribute("data-format") || "";
+          var duration = 1400;
+          var start = null;
+          function step(ts) {
+            if (start === null) start = ts;
+            var progress = Math.min((ts - start) / duration, 1);
+            var eased = 1 - Math.pow(1 - progress, 3);
+            var current = from + (to - from) * eased;
+            el.textContent = formatNum(current, format) + suffix;
+            if (progress < 1) {
+              requestAnimationFrame(step);
+            }
+          }
+          requestAnimationFrame(step);
+        }
+        var statsRow = document.getElementById("statsRow");
+        if (statsRow && "IntersectionObserver" in window) {
+          var statIo = new IntersectionObserver(
+            function (entries) {
+              entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                  entry.target
+                    .querySelectorAll(".stat-num")
+                    .forEach(animateCounter);
+                  statIo.unobserve(entry.target);
+                }
+              });
+            },
+            { threshold: 0.4 },
+          );
+          statIo.observe(statsRow);
+        }
+
+        // Contact form validation (frontend only)
+        var form = document.getElementById("contactForm");
+        var formMsg = document.getElementById("formMsg");
+        var validators = {
+          fullname: function (v) {
+            return v.trim().length >= 2;
+          },
+          phone: function (v) {
+            return /^[0-9]{9,11}$/.test(v.trim());
+          },
+          email: function (v) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+          },
+          message: function (v) {
+            return v.trim().length >= 5;
+          },
+        };
+        var formMsgDefault = formMsg.textContent;
+        var submitBtn = form.querySelector('button[type="submit"]');
+        var submitBtnDefault = submitBtn.textContent;
+
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          var valid = true;
+          Object.keys(validators).forEach(function (name) {
+            var input = form.elements[name];
+            var fieldWrap = document.getElementById(
+              "field-" + (name === "fullname" ? "name" : name),
+            );
+            var ok = validators[name](input.value);
+            fieldWrap.classList.toggle("invalid", !ok);
+            if (!ok) valid = false;
+          });
+          if (!valid) {
+            formMsg.classList.remove("show", "error");
+            return;
+          }
+
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Đang gửi...";
+          formMsg.classList.remove("show", "error");
+
+          fetch(form.action, {
+            method: "POST",
+            body: new FormData(form),
+            headers: { Accept: "application/json" },
+          })
+            .then(function (response) {
+              if (response.ok) {
+                formMsg.textContent = formMsgDefault;
+                formMsg.classList.remove("error");
+                formMsg.classList.add("show");
+                form.reset();
+              } else {
+                throw new Error("submit-failed");
+              }
+            })
+            .catch(function () {
+              formMsg.textContent =
+                "Có lỗi xảy ra, bạn vui lòng thử lại hoặc gọi hotline 1900-4472 nhé!";
+              formMsg.classList.add("show", "error");
+            })
+            .finally(function () {
+              submitBtn.disabled = false;
+              submitBtn.textContent = submitBtnDefault;
+            });
+        });
+        Object.keys(validators).forEach(function (name) {
+          var input = form.elements[name];
+          input.addEventListener("input", function () {
+            var fieldWrap = document.getElementById(
+              "field-" + (name === "fullname" ? "name" : name),
+            );
+            if (validators[name](input.value)) {
+              fieldWrap.classList.remove("invalid");
+            }
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>
